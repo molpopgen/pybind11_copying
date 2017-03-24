@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/functional.h>
+#include <pybind11/stl_bind.h>
 #include <iostream>
 
 using individual = std::pair<std::size_t, std::size_t>;
@@ -34,6 +35,10 @@ struct population
         std::cout << "population got copied\n";
     }
 };
+
+PYBIND11_MAKE_OPAQUE(std::vector<gamete>);
+PYBIND11_MAKE_OPAQUE(std::vector<effect>);
+
 
 population
 make_pop()
@@ -81,6 +86,8 @@ PYBIND11_PLUGIN(copying)
 {
     py::module m("copying", "expensive copying");
 
+    py::bind_vector<std::vector<gamete>>(m,"GameteVector");
+    py::bind_vector<std::vector<effect>>(m,"EffectVector");
     py::class_<individual>(m, "Individual")
         .def_readonly("first",&individual::first)
         .def_readonly("second",&individual::second);

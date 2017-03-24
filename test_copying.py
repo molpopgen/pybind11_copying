@@ -23,6 +23,7 @@ class Recorder:
     def __init__(self):
         self.data=[]
     def __call__(self,pop):
+        return
         for i in pop.ind:
             self.data.append(fitness(i,pop.gametes,pop.effects))
 
