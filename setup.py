@@ -37,6 +37,13 @@ ext_modules = [
         libraries=[],
         language='c++'
     ),
+ Extension(
+        'copying2',
+        ['copying2.cpp'],
+        include_dirs=INCLUDES,
+        libraries=[],
+        language='c++'
+    ),
  ]
 
 
