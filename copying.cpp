@@ -38,7 +38,7 @@ struct population
 
 PYBIND11_MAKE_OPAQUE(std::vector<gamete>);
 PYBIND11_MAKE_OPAQUE(std::vector<effect>);
-
+PYBIND11_MAKE_OPAQUE(std::vector<std::size_t>);
 
 population
 make_pop()
@@ -88,6 +88,7 @@ PYBIND11_PLUGIN(copying)
 
     py::bind_vector<std::vector<gamete>>(m,"GameteVector");
     py::bind_vector<std::vector<effect>>(m,"EffectVector");
+    py::bind_vector<std::vector<std::size_t>>(m,"KeyVector");
     py::class_<individual>(m, "Individual")
         .def_readonly("first",&individual::first)
         .def_readonly("second",&individual::second);
