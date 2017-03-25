@@ -21,7 +21,10 @@ struct object
     object(const object& o) : s(o.s) { std::cout << "object copied\n"; }
 };
 
-using sf = std::function<void(const subobject&)>;
+//PYBIND11_MAKE_OPAQUE(object);
+//PYBIND11_MAKE_OPAQUE(subobject);
+
+using sf = std::function<void(const subobject*)>;
 using of = std::function<void(const object&)>;
 
 void
@@ -29,8 +32,8 @@ doit(const object& o, sf sf_, of of_)
 {
     std::cout << "work on object:\n";
     of_(o);
-    std::cout << "done\nwork on subobject:\n";
-    sf_(o.s);
+    std::cout << "done\nwork on suobject:\n";
+    sf_(&o.s);
     std::cout << "done\n";
 }
 
