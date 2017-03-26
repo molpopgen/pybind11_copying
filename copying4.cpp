@@ -36,18 +36,26 @@ struct process_subobject
     }
 };
 
-template<typename sf_>
-void external_lib_template_fxn(object & o,const sf_ sf)
+template <typename sf_>
+void
+external_lib_template_fxn(object& o, const sf_ sf)
 {
-    auto sc = o.s;
-    sf(sc);
+    /* The "real" project
+     * would work on a copy
+     * of o.s, but this
+     * is sufficient to
+     * show that there's still a copy
+     */
+    std::cout << "about to call our policy\nin external library...\n";
+    sf(o.s);
+    std::cout << "done with policy call\n";
 }
 
 void
 doit(object& o, py::function sf_, of of_)
 {
     std::cout << "pass off to another lib\nthat works on the subobject\n";
-    external_lib_template_fxn(o,sf_);
+    external_lib_template_fxn(o, sf_);
     std::cout << "work on object in our Python package:\n";
     of_(o);
 }
