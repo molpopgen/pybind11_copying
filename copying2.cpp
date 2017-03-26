@@ -4,6 +4,8 @@
 #include <pybind11/stl_bind.h>
 #include <iostream>
 
+namespace py = pybind11;
+
 struct subobject
 {
     int x;
@@ -24,20 +26,20 @@ struct object
 //PYBIND11_MAKE_OPAQUE(object);
 //PYBIND11_MAKE_OPAQUE(subobject);
 
-using sf = std::function<void(const subobject*)>;
+using sf = std::function<void(const subobject &)>;
 using of = std::function<void(const object&)>;
 
 void
-doit(const object& o, sf sf_, of of_)
+//doit(const object& o, sf sf_, of of_)
+doit(const object& o, py::function sf_, py::function of_)
 {
     std::cout << "work on object:\n";
-    of_(o);
+    of_(py::cast(o,py::return_value_policy::reference));
     std::cout << "done\nwork on suobject:\n";
-    sf_(&o.s);
+    sf_(py::cast(o.s,py::return_value_policy::reference));
     std::cout << "done\n";
 }
 
-namespace py = pybind11;
 
 PYBIND11_PLUGIN(copying2)
 {
